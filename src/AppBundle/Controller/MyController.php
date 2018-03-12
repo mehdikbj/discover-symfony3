@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\form\Type\MyFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -14,11 +15,20 @@ class MyController extends Controller
 
     /**
      * @Route("/my/{params}", name="my", defaults={"params"=null})
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
     public function myAction(Request $request) {
 
-        return $this->render('myTemplate/my.html.twig', ['name' => $request->get('params')]);
+        $form = $this->createForm(MyFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+        }
+
+        return $this->render('myTemplate/my.html.twig', [
+            'name' => $request->get('params'),
+            'form' => $form->createView()
+        ]);
     }
 
 }

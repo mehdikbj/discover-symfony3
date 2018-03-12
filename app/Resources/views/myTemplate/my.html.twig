@@ -4,4 +4,10 @@
 
 {% block body %}
     <h1>All the work is done by {{ name }}</h1>
+
+    {{ form_start(form, {'method': 'get', 'attr': {'id': 'toto', 'novalidate': 'novalidate', 'class': 'tata'}}) }}
+
+        {{ form_widget(form) }}
+
+    {{ form_end(form) }}
 {% endblock %}
