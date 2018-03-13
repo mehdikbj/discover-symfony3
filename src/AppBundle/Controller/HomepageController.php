@@ -17,16 +17,6 @@ class HomepageController extends Controller
      */
     public function homeAction(Request $request)
     {
-        $item = new Item();
-        $item->setTitle('Test');
-        $item->setDescription('Only a test');
-        $item->setCode('123');
-        $item->setCollection('Test');
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($item);
-        $em->flush();
-
         // replace this example code with whatever you need
         return $this->render('homepage/index.html.twig', []);
     }
