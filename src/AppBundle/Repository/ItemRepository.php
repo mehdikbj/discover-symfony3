@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class ItemRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getCollections() {
+
+        $qb = $this->createQueryBuilder('i');
+
+        $qb
+            ->select('i.collection')
+            ->groupBy('i.collection')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

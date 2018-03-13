@@ -1,6 +1,12 @@
 {% extends 'home.html.twig' %}
 
 {% block main %}
+
+    Filter By : 
+    {% for collection in collections %}
+        <a href="" class="label label-info">{{ collection.collection }}</a>
+    {% endfor %}
+
     <div class="container">
         {% for item in items %}
             {{ item.Title }} | <a href="{{ path('oneItem', {id: item.id}) }}">View</a> | <a href="{{ path('removeItem', {id: item.id}) }}">Remove item</a> <br />

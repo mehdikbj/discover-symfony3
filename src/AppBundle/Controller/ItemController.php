@@ -60,9 +60,10 @@ class ItemController extends Controller
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Item');
         $items = $repository->findAll();
+        $collections = $repository->getCollections();
 
 
-        return $this->render('item/list.html.twig', ['items' => $items]);
+        return $this->render('item/list.html.twig', ['items' => $items, 'collections' => $collections]);
     }
 
     /**
