@@ -1,0 +1,9 @@
+{% extends 'home.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        {% for item in items %}
+            {{ item.Title }} | <a href="{{ path('oneItem', {id: item.id}) }}">View</a> | <a href="{{ path('removeItem', {id: item.id}) }}">Remove item</a> <br />
+        {% endfor %}
+    </div>
+{% endblock %}

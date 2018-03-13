@@ -42,6 +42,8 @@ class ItemController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
+
+            return $this->redirectToRoute('items');
         }
 
 
@@ -49,6 +51,46 @@ class ItemController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('item/add.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/items", name="items")
+     */
+    public function itemsAction(Request $request) {
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Item');
+        $items = $repository->findAll();
+
+
+        return $this->render('item/list.html.twig', ['items' => $items]);
+    }
+
+    /**
+     * @Route("/item/{id}", name="oneItem")
+     */
+    public function oneItemAction(Request $request, $id) {
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Item');
+        $item = $repository->find($id);
+
+
+        return $this->render('item/one.html.twig', ['item' => $item]);
+    }
+
+    /**
+     * @Route("/item/remove/{id}", name="removeItem")
+     */
+    public function removeAction(Request $request, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Item');
+        $item = $repository->find($id);
+
+        $em->remove($item);
+        $em->flush();
+
+        return $this->redirectToRoute('items');
     }
 
 }
