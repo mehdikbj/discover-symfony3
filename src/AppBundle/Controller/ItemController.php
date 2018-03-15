@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class ItemController extends Controller
@@ -19,6 +20,7 @@ class ItemController extends Controller
      */
     public function addAction(Request $request)
     {
+        $session = new Session();
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $form = $this->createFormBuilder()
@@ -44,6 +46,8 @@ class ItemController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
+
+            $session->getFlashBag()->add('infos', 'Objet correctement ajouté');
 
             return $this->redirectToRoute('items');
         }
@@ -85,6 +89,9 @@ class ItemController extends Controller
      */
     public function removeAction(Request $request, $id) {
 
+        $session = new Session();
+
+
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $em = $this->getDoctrine()->getManager();
@@ -92,8 +99,15 @@ class ItemController extends Controller
         $repository = $this->getDoctrine()->getRepository('AppBundle:Item');
         $item = $repository->find($id);
 
-        $em->remove($item);
-        $em->flush();
+        if ($item->isAuthor($this->getUser())) {
+            $em->remove($item);
+            $em->flush();
+
+            $session->getFlashBag()->add('infos', 'Objet supprimé');
+        } else {
+            $session->getFlashBag()->add('errors', 'Objet appartenant à un autre utilisateur');
+        }
+
 
         return $this->redirectToRoute('items');
     }

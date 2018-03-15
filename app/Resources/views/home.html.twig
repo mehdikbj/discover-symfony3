@@ -33,8 +33,20 @@
             Hello {{ app.user.username }} !
         </div>
         {% endif %}
-
     {% endblock %}
+
+    {% for message in app.session.flashbag.get('infos') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('errors') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     {% block main %}{% endblock %}
 </div>
 {% block javascripts %}
