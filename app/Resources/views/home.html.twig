@@ -19,13 +19,21 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Collection</a></li>
+                        <li class="active"><a href="{{ path('homepage') }}">Home</a></li>
+                        <li><a href="{{ path('items') }}">Collection</a></li>
                     </ul>
-                    <a class="pull-right btn btn-info account" href="#">Account</a>
+                    <a class="pull-right btn btn-info account" href="{{ path('fos_user_security_login') }}">Login</a>
+                    <a class="pull-right btn btn-info account" href="{{ path('fos_user_security_logout') }}">Logout</a>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
         </nav>
+
+        {% if app.user %}
+        <div class="text-right">
+            Hello {{ app.user.username }} !
+        </div>
+        {% endif %}
+
     {% endblock %}
     {% block main %}{% endblock %}
 </div>

@@ -9,7 +9,7 @@
 
     <div class="container">
         {% for item in items %}
-            {{ item.Title }} | <a href="{{ path('oneItem', {id: item.id}) }}">View</a> | <a href="{{ path('removeItem', {id: item.id}) }}">Remove item</a> <br />
+            {{ item.Title }} | <a href="{{ path('oneItem', {id: item.id}) }}">View</a> {% if app.user.hasRole('ROLE_ADMIN') %}| <a href="{{ path('removeItem', {id: item.id}) }}">Remove item</a> {% endif %} <br />
         {% endfor %}
     </div>
 {% endblock %}

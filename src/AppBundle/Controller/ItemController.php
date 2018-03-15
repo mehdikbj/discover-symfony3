@@ -19,6 +19,7 @@ class ItemController extends Controller
      */
     public function addAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $form = $this->createFormBuilder()
             ->add('Title', TextType::class)
@@ -38,6 +39,7 @@ class ItemController extends Controller
             $item->setDescription($data['Description']);
             $item->setCode($data['Code']);
             $item->setCollection($data['Collection']);
+            $item->setUser($this->getUser()->getId());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
@@ -82,6 +84,8 @@ class ItemController extends Controller
      * @Route("/item/remove/{id}", name="removeItem")
      */
     public function removeAction(Request $request, $id) {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $em = $this->getDoctrine()->getManager();
 
